@@ -1,0 +1,9 @@
+# IDE/editor configs
+.bloop/
+.metals/
+.vscode/
+
+# Scala/Java build files
+target/
+project/target/
+project/project/

@@ -32,7 +32,7 @@ object RankerDemo extends App {
     )
   )
   
-  println("📊 Input Offers:")
+  println("Input Offers:")
   offers.foreach { offer =>
     println(s"  ${offer.id}:")
     println(s"    Revenue: ${offer.features("revenue")}, Engagement: ${offer.features("engagement")}")
@@ -102,7 +102,7 @@ object RankerDemo extends App {
   }
   
   println()
-  println("🧪 Testing Quick Rank API:")
+  println("Testing Quick Rank API:")
   val quickResult = Ranker.quickRank(offers, "revenue + engagement * 2", maxResults = 3)
   quickResult match {
     case Right(rankedOffers) =>
