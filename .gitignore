@@ -4,7 +4,23 @@
 .vscode/
 .bsp/
 
-# Build artifacts
+# Build artifacts (recursive)
 **/target/
-project/target/
-project/project/
+**/.bloop/
+**/.metals/
+**/.ammonite/
+
+# VS Code workspace settings
+*.code-workspace
+
+# MacOS artifacts
+.DS_Store
+
+# Logs
+logs/
+*.log
+
+# IntelliJ IDEA
+.idea/
+*.iml
+out/
