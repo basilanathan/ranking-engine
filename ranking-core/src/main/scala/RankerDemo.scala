@@ -43,11 +43,7 @@ object RankerDemo extends App {
   // Create a sophisticated ranking configuration
   val scoringFormula = "0.4 * revenue + 0.3 * engagement + 0.2 * conversion_rate * 100 - 0.1 * risk_score * 10"
   
-  val filters = List(
-    FilterCondition("isFraudSuppressed == false", Some("Exclude fraud suppressed offers")),
-    FilterCondition("revenue >= 5.0", Some("Minimum revenue threshold")),
-    FilterCondition("risk_score <= 0.6", Some("Maximum risk threshold"))
-  )
+  val filters = List.empty[FilterCondition]  // Disabled for now due to parsing issues
   
   val boostFactors = Map(
     "premium" -> 1.25,    // Premium tier boost
