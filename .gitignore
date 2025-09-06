@@ -4,11 +4,7 @@
 .vscode/
 .bsp/
 
-# Scala/Java build files
-target/
+# Build artifacts
+**/target/
 project/target/
 project/project/
-ranking-api/target
-ranking-config/target
-ranking-core/target
-ranking-tests/target
