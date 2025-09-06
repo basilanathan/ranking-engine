@@ -8,3 +8,7 @@
 target/
 project/target/
 project/project/
+ranking-api/target
+ranking-config/target
+ranking-core/target
+ranking-tests/target
