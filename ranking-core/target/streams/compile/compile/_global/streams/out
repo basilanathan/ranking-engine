@@ -1,0 +1,9 @@
+[warn] /Users/basila/Documents/Develop/ranking-engine/ranking-core/src/main/scala/ExperimentDemo.scala:92:53: method formatted in class StringFormat is deprecated (since 2.12.16): Use `formatString.format(value)` instead of `value.formatted(formatString)`,
+[warn] or use the `f""` string interpolator. In Java 15 and later, `formatted` resolves to the new method in String which has reversed parameters.
+[warn]           println(s"     Score: ${scoredOffer.score.formatted("%.2f")}")
+[warn]                                                     ^
+[warn] /Users/basila/Documents/Develop/ranking-engine/ranking-core/src/main/scala/ExperimentDemo.scala:124:109: method formatted in class StringFormat is deprecated (since 2.12.16): Use `formatString.format(value)` instead of `value.formatted(formatString)`,
+[warn] or use the `f""` string interpolator. In Java 15 and later, `formatted` resolves to the new method in String which has reversed parameters.
+[warn]         println(s"$userId -> Experiment: $experimentInfo, Top Offer: ${topOffer.offer.id} (${topOffer.score.formatted("%.2f")})")
+[warn]                                                                                                             ^
+[warn] two warnings found

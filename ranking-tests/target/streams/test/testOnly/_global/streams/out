@@ -1,0 +1,21 @@
+[debug] Running TaskDef(com.example.ranking.tests.ExperimentRankerSpec, org.scalatest.tools.Framework$$anon$1@281e26a4, false, [SuiteSelector])
+[info] ExperimentRankerSpec:
+[info] Ranker with experiment overrides
+[info] - should use base formula when no experiment group is specified
+[info] - should apply experiment formula when experiment group matches
+[info] - should apply multiple experiment overrides
+[info] - should handle non-existent experiment groups gracefully
+[info] - should validate experiment formulas and reject invalid ones
+[info] RankingContext
+[info] - should provide convenient builders
+[info] ExperimentResolver
+[info] - should resolve configurations correctly
+[info] Ranker.quickRankWithExperiment
+[info] - should provide simple experiment API
+[info] Run completed in 498 milliseconds.
+[info] Total number of tests run: 8
+[info] Suites: completed 1, aborted 0
+[info] Tests: succeeded 8, failed 0, canceled 0, ignored 0, pending 0
+[info] All tests passed.
+[debug] Passed tests:
+[debug] 	com.example.ranking.tests.ExperimentRankerSpec

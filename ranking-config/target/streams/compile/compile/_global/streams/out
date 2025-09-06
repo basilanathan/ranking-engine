@@ -1,0 +1,37 @@
+[error] /Users/basila/Documents/Develop/ranking-engine/ranking-config/src/main/scala/com/example/ranking/config/RankingConfigSchema.scala:12:13: type JsonKey is not a member of package io.circe
+[error]   @io.circe.JsonKey("ranking_strategy") rankingStrategy: Option[String] = None,
+[error]             ^
+[error] /Users/basila/Documents/Develop/ranking-engine/ranking-config/src/main/scala/com/example/ranking/config/RankingConfigSchema.scala:13:13: type JsonKey is not a member of package io.circe
+[error]   @io.circe.JsonKey("scoring_formula") scoringFormula: Option[String] = None,
+[error]             ^
+[error] /Users/basila/Documents/Develop/ranking-engine/ranking-config/src/main/scala/com/example/ranking/config/RankingConfigSchema.scala:15:13: type JsonKey is not a member of package io.circe
+[error]   @io.circe.JsonKey("max_results") maxResults: Option[Int] = None,
+[error]             ^
+[error] /Users/basila/Documents/Develop/ranking-engine/ranking-config/src/main/scala/com/example/ranking/config/RankingConfigSchema.scala:16:13: type JsonKey is not a member of package io.circe
+[error]   @io.circe.JsonKey("boost_factors") boostFactors: Option[Map[String, Double]] = None
+[error]             ^
+[error] /Users/basila/Documents/Develop/ranking-engine/ranking-config/src/main/scala/com/example/ranking/config/RankingConfigSchema.scala:20:13: type JsonKey is not a member of package io.circe
+[error]   @io.circe.JsonKey("ranking_strategy") rankingStrategy: String,
+[error]             ^
+[error] /Users/basila/Documents/Develop/ranking-engine/ranking-config/src/main/scala/com/example/ranking/config/RankingConfigSchema.scala:21:13: type JsonKey is not a member of package io.circe
+[error]   @io.circe.JsonKey("scoring_formula") scoringFormula: String,
+[error]             ^
+[error] /Users/basila/Documents/Develop/ranking-engine/ranking-config/src/main/scala/com/example/ranking/config/RankingConfigSchema.scala:22:13: type JsonKey is not a member of package io.circe
+[error]   @io.circe.JsonKey("max_results") maxResults: Option[Int] = None
+[error]             ^
+[error] /Users/basila/Documents/Develop/ranking-engine/ranking-config/src/main/scala/com/example/ranking/config/RankingConfigSchema.scala:26:13: type JsonKey is not a member of package io.circe
+[error]   @io.circe.JsonKey("ranking_strategy") rankingStrategy: String,
+[error]             ^
+[error] /Users/basila/Documents/Develop/ranking-engine/ranking-config/src/main/scala/com/example/ranking/config/RankingConfigSchema.scala:27:13: type JsonKey is not a member of package io.circe
+[error]   @io.circe.JsonKey("scoring_formula") scoringFormula: String,
+[error]             ^
+[error] /Users/basila/Documents/Develop/ranking-engine/ranking-config/src/main/scala/com/example/ranking/config/RankingConfigSchema.scala:29:13: type JsonKey is not a member of package io.circe
+[error]   @io.circe.JsonKey("experiment_groups") experimentGroups: Option[Map[String, ExperimentGroupConfig]] = None,
+[error]             ^
+[error] /Users/basila/Documents/Develop/ranking-engine/ranking-config/src/main/scala/com/example/ranking/config/RankingConfigSchema.scala:30:13: type JsonKey is not a member of package io.circe
+[error]   @io.circe.JsonKey("max_results") maxResults: Option[Int] = None,
+[error]             ^
+[error] /Users/basila/Documents/Develop/ranking-engine/ranking-config/src/main/scala/com/example/ranking/config/RankingConfigSchema.scala:31:13: type JsonKey is not a member of package io.circe
+[error]   @io.circe.JsonKey("boost_factors") boostFactors: Option[Map[String, Double]] = None,
+[error]             ^
+[error] 12 errors found

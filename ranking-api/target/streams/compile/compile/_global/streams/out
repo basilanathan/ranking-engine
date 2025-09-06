@@ -1,0 +1,34 @@
+[warn] /Users/basila/Documents/Develop/ranking-engine/ranking-api/src/main/scala/com/example/ranking/api/CliApp.scala:46:21: class RankingConfig in package config is deprecated (since 0.2.0): Use RankingConfigSchema instead
+[warn]       rankingConfig <- config.configFile match {
+[warn]                     ^
+[warn] /Users/basila/Documents/Develop/ranking-engine/ranking-api/src/main/scala/com/example/ranking/api/CliApp.scala:46:7: class RankingConfig in package config is deprecated (since 0.2.0): Use RankingConfigSchema instead
+[warn]       rankingConfig <- config.configFile match {
+[warn]       ^
+[warn] /Users/basila/Documents/Develop/ranking-engine/ranking-api/src/main/scala/com/example/ranking/api/RankingService.scala:8:54: class RankingConfig in package config is deprecated (since 0.2.0): Use RankingConfigSchema instead
+[warn] case class RankingRequest(items: List[Item], config: Option[RankingConfig] = None)
+[warn]                                                      ^
+[warn] /Users/basila/Documents/Develop/ranking-engine/ranking-api/src/main/scala/com/example/ranking/api/RankingService.scala:8:12: class RankingConfig in package config is deprecated (since 0.2.0): Use RankingConfigSchema instead
+[warn] case class RankingRequest(items: List[Item], config: Option[RankingConfig] = None)
+[warn]            ^
+[warn] /Users/basila/Documents/Develop/ranking-engine/ranking-api/src/main/scala/com/example/ranking/api/RankingService.scala:14:71: class RankingConfig in package config is deprecated (since 0.2.0): Use RankingConfigSchema instead
+[warn]   implicit val requestDecoder: Decoder[RankingRequest] = deriveDecoder[RankingRequest]
+[warn]                                                                       ^
+[warn] /Users/basila/Documents/Develop/ranking-engine/ranking-api/src/main/scala/com/example/ranking/api/RankingService.scala:15:71: class RankingConfig in package config is deprecated (since 0.2.0): Use RankingConfigSchema instead
+[warn]   implicit val requestEncoder: Encoder[RankingRequest] = deriveEncoder[RankingRequest]
+[warn]                                                                       ^
+[warn] /Users/basila/Documents/Develop/ranking-engine/ranking-api/src/main/scala/com/example/ranking/api/RankingService.scala:21:12: class RankingConfig in package config is deprecated (since 0.2.0): Use RankingConfigSchema instead
+[warn]       case Some(config) => createStrategyFromConfig(config)
+[warn]            ^
+[warn] /Users/basila/Documents/Develop/ranking-engine/ranking-api/src/main/scala/com/example/ranking/api/RankingService.scala:32:48: class RankingConfig in package config is deprecated (since 0.2.0): Use RankingConfigSchema instead
+[warn]   private def createStrategyFromConfig(config: RankingConfig): Either[String, RankingStrategy[Item]] = {
+[warn]                                                ^
+[warn] /Users/basila/Documents/Develop/ranking-engine/ranking-api/src/main/scala/com/example/ranking/api/RankingService.scala:33:21: method validate in object ConfigValidator is deprecated (since 0.2.0): Use ConfigResolver.resolve instead
+[warn]     ConfigValidator.validate(config) match {
+[warn]                     ^
+[warn] /Users/basila/Documents/Develop/ranking-engine/ranking-api/src/main/scala/com/example/ranking/api/RankingService.scala:34:12: class RankingConfig in package config is deprecated (since 0.2.0): Use RankingConfigSchema instead
+[warn]       case Left(errors) => Left(s"Configuration validation failed: ${errors.mkString(", ")}")
+[warn]            ^
+[warn] /Users/basila/Documents/Develop/ranking-engine/ranking-api/src/main/scala/com/example/ranking/api/RankingService.scala:35:12: class RankingConfig in package config is deprecated (since 0.2.0): Use RankingConfigSchema instead
+[warn]       case Right(validConfig) => 
+[warn]            ^
+[warn] 11 warnings found

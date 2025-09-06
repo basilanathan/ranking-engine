@@ -1,0 +1,2 @@
+[debug] Created transactional ClassFileManager with tempDir = /Users/basila/Documents/Develop/ranking-engine/ranking-core/target/scala-2.13/classes.bak
+[debug] Removing the temporary directory used for backing up class files: /Users/basila/Documents/Develop/ranking-engine/ranking-core/target/scala-2.13/classes.bak

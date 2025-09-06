@@ -1,0 +1,10 @@
+[error] /Users/basila/Documents/Develop/ranking-engine/ranking-tests/src/test/scala/com/example/ranking/tests/ExperimentRankerSpec.scala:119:9: illegal start of simple pattern
+[error]     val override = ranking.experimentOverride.get
+[error]         ^
+[error] /Users/basila/Documents/Develop/ranking-engine/ranking-tests/src/test/scala/com/example/ranking/tests/ExperimentRankerSpec.scala:120:1: '=' expected.
+[error]     override.appliedOverrides should contain allOf ("scoringFormula", "filters", "boostFactors", "maxResults")
+[error] ^
+[error] /Users/basila/Documents/Develop/ranking-engine/ranking-tests/src/test/scala/com/example/ranking/tests/ExperimentRankerSpec.scala:120:5: illegal start of statement (no modifiers allowed here)
+[error]     override.appliedOverrides should contain allOf ("scoringFormula", "filters", "boostFactors", "maxResults")
+[error]     ^
+[error] three errors found
