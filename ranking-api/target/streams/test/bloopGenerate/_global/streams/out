@@ -1,4 +1,0 @@
-[debug] [rankingApi-test] Classpath dependencies List(rankingCore, rankingConfig)
-[debug] [rankingApi-test] Dependencies from configurations List(rankingApi)
-[debug] Bloop wrote the configuration of project 'rankingApi-test' to '/Users/basila/Documents/Develop/ranking-engine/.bloop/rankingApi-test.json'
-[success] Generated .bloop/rankingApi-test.json

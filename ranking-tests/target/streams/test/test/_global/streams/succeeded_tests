@@ -1,9 +1,0 @@
-#Successful Tests
-#Fri Sep 05 23:30:28 PDT 2025
-com.example.ranking.tests.ConfigSchemaSpec=1757138503725
-com.example.ranking.tests.ConfigSpec=1757138503597
-com.example.ranking.tests.ExperimentRankerSpec=1757140228378
-com.example.ranking.tests.ExpressionEvaluatorSpec=1757138503386
-com.example.ranking.tests.ExpressionRankingIntegrationSpec=1757138503781
-com.example.ranking.tests.IntegrationSpec=1757138503278
-com.example.ranking.tests.RankingCoreSpec=1757138503090

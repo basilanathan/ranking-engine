@@ -1,8 +1,16 @@
 [debug] Created transactional ClassFileManager with tempDir = /Users/basila/Documents/Develop/ranking-engine/ranking-tests/target/scala-2.13/test-classes.bak
 [debug] About to delete class files:
-[debug] 	ExperimentRankerSpec.class
 [debug] We backup class files:
-[debug] 	ExperimentRankerSpec.class
+[debug] Created transactional ClassFileManager with tempDir = /Users/basila/Documents/Develop/ranking-engine/ranking-tests/target/scala-2.13/test-classes.bak
+[debug] About to delete class files:
+[debug] We backup class files:
 [debug] Registering generated classes:
 [debug] 	ExperimentRankerSpec.class
+[debug] 	RankingCoreSpec.class
+[debug] 	ExpressionRankingIntegrationSpec.class
+[debug] 	ExpressionEvaluatorSpec.class
+[debug] 	ConfigSchemaSpec.class
+[debug] 	ConfigSpec.class
+[debug] 	RankerSpec.class
+[debug] 	IntegrationSpec.class
 [debug] Removing the temporary directory used for backing up class files: /Users/basila/Documents/Develop/ranking-engine/ranking-tests/target/scala-2.13/test-classes.bak

@@ -1,37 +1,43 @@
-[error] /Users/basila/Documents/Develop/ranking-engine/ranking-config/src/main/scala/com/example/ranking/config/RankingConfigSchema.scala:12:13: type JsonKey is not a member of package io.circe
-[error]   @io.circe.JsonKey("ranking_strategy") rankingStrategy: Option[String] = None,
-[error]             ^
-[error] /Users/basila/Documents/Develop/ranking-engine/ranking-config/src/main/scala/com/example/ranking/config/RankingConfigSchema.scala:13:13: type JsonKey is not a member of package io.circe
-[error]   @io.circe.JsonKey("scoring_formula") scoringFormula: Option[String] = None,
-[error]             ^
-[error] /Users/basila/Documents/Develop/ranking-engine/ranking-config/src/main/scala/com/example/ranking/config/RankingConfigSchema.scala:15:13: type JsonKey is not a member of package io.circe
-[error]   @io.circe.JsonKey("max_results") maxResults: Option[Int] = None,
-[error]             ^
-[error] /Users/basila/Documents/Develop/ranking-engine/ranking-config/src/main/scala/com/example/ranking/config/RankingConfigSchema.scala:16:13: type JsonKey is not a member of package io.circe
-[error]   @io.circe.JsonKey("boost_factors") boostFactors: Option[Map[String, Double]] = None
-[error]             ^
-[error] /Users/basila/Documents/Develop/ranking-engine/ranking-config/src/main/scala/com/example/ranking/config/RankingConfigSchema.scala:20:13: type JsonKey is not a member of package io.circe
-[error]   @io.circe.JsonKey("ranking_strategy") rankingStrategy: String,
-[error]             ^
-[error] /Users/basila/Documents/Develop/ranking-engine/ranking-config/src/main/scala/com/example/ranking/config/RankingConfigSchema.scala:21:13: type JsonKey is not a member of package io.circe
-[error]   @io.circe.JsonKey("scoring_formula") scoringFormula: String,
-[error]             ^
-[error] /Users/basila/Documents/Develop/ranking-engine/ranking-config/src/main/scala/com/example/ranking/config/RankingConfigSchema.scala:22:13: type JsonKey is not a member of package io.circe
-[error]   @io.circe.JsonKey("max_results") maxResults: Option[Int] = None
-[error]             ^
-[error] /Users/basila/Documents/Develop/ranking-engine/ranking-config/src/main/scala/com/example/ranking/config/RankingConfigSchema.scala:26:13: type JsonKey is not a member of package io.circe
-[error]   @io.circe.JsonKey("ranking_strategy") rankingStrategy: String,
-[error]             ^
-[error] /Users/basila/Documents/Develop/ranking-engine/ranking-config/src/main/scala/com/example/ranking/config/RankingConfigSchema.scala:27:13: type JsonKey is not a member of package io.circe
-[error]   @io.circe.JsonKey("scoring_formula") scoringFormula: String,
-[error]             ^
-[error] /Users/basila/Documents/Develop/ranking-engine/ranking-config/src/main/scala/com/example/ranking/config/RankingConfigSchema.scala:29:13: type JsonKey is not a member of package io.circe
-[error]   @io.circe.JsonKey("experiment_groups") experimentGroups: Option[Map[String, ExperimentGroupConfig]] = None,
-[error]             ^
-[error] /Users/basila/Documents/Develop/ranking-engine/ranking-config/src/main/scala/com/example/ranking/config/RankingConfigSchema.scala:30:13: type JsonKey is not a member of package io.circe
-[error]   @io.circe.JsonKey("max_results") maxResults: Option[Int] = None,
-[error]             ^
-[error] /Users/basila/Documents/Develop/ranking-engine/ranking-config/src/main/scala/com/example/ranking/config/RankingConfigSchema.scala:31:13: type JsonKey is not a member of package io.circe
-[error]   @io.circe.JsonKey("boost_factors") boostFactors: Option[Map[String, Double]] = None,
-[error]             ^
-[error] 12 errors found
+[warn] /Users/basila/Documents/Develop/ranking-engine/ranking-config/src/main/scala/com/example/ranking/config/ConfigValidator.scala:26:40: class RankingConfig in package config is deprecated (since 0.2.0): Use RankingConfigSchema instead
+[warn]   private def validateStrategy(config: RankingConfig): List[ValidationError] = {
+[warn]                                        ^
+[warn] /Users/basila/Documents/Develop/ranking-engine/ranking-config/src/main/scala/com/example/ranking/config/ConfigValidator.scala:31:39: class RankingConfig in package config is deprecated (since 0.2.0): Use RankingConfigSchema instead
+[warn]   private def validateWeights(config: RankingConfig): List[ValidationError] = {
+[warn]                                       ^
+[warn] /Users/basila/Documents/Develop/ranking-engine/ranking-config/src/main/scala/com/example/ranking/config/ConfigValidator.scala:37:42: class RankingConfig in package config is deprecated (since 0.2.0): Use RankingConfigSchema instead
+[warn]   private def validateParameters(config: RankingConfig): List[ValidationError] = {
+[warn]                                          ^
+[warn] /Users/basila/Documents/Develop/ranking-engine/ranking-config/src/main/scala/com/example/ranking/config/RankingConfig.scala:15:25: class RankingConfig in package config is deprecated (since 0.2.0): Use RankingConfigSchema instead
+[warn]   implicit val decoder: Decoder[RankingConfig] = deriveDecoder[RankingConfig]
+[warn]                         ^
+[warn] /Users/basila/Documents/Develop/ranking-engine/ranking-config/src/main/scala/com/example/ranking/config/RankingConfig.scala:15:64: class RankingConfig in package config is deprecated (since 0.2.0): Use RankingConfigSchema instead
+[warn]   implicit val decoder: Decoder[RankingConfig] = deriveDecoder[RankingConfig]
+[warn]                                                                ^
+[warn] /Users/basila/Documents/Develop/ranking-engine/ranking-config/src/main/scala/com/example/ranking/config/RankingConfig.scala:15:63: class RankingConfig in package config is deprecated (since 0.2.0): Use RankingConfigSchema instead
+[warn]   implicit val decoder: Decoder[RankingConfig] = deriveDecoder[RankingConfig]
+[warn]                                                               ^
+[warn] /Users/basila/Documents/Develop/ranking-engine/ranking-config/src/main/scala/com/example/ranking/config/RankingConfig.scala:16:25: class RankingConfig in package config is deprecated (since 0.2.0): Use RankingConfigSchema instead
+[warn]   implicit val encoder: Encoder[RankingConfig] = deriveEncoder[RankingConfig]
+[warn]                         ^
+[warn] /Users/basila/Documents/Develop/ranking-engine/ranking-config/src/main/scala/com/example/ranking/config/RankingConfig.scala:16:64: class RankingConfig in package config is deprecated (since 0.2.0): Use RankingConfigSchema instead
+[warn]   implicit val encoder: Encoder[RankingConfig] = deriveEncoder[RankingConfig]
+[warn]                                                                ^
+[warn] /Users/basila/Documents/Develop/ranking-engine/ranking-config/src/main/scala/com/example/ranking/config/RankingConfig.scala:16:63: class RankingConfig in package config is deprecated (since 0.2.0): Use RankingConfigSchema instead
+[warn]   implicit val encoder: Encoder[RankingConfig] = deriveEncoder[RankingConfig]
+[warn]                                                               ^
+[warn] /Users/basila/Documents/Develop/ranking-engine/ranking-config/src/main/scala/com/example/ranking/config/RankingConfig.scala:18:37: class RankingConfig in package config is deprecated (since 0.2.0): Use RankingConfigSchema instead
+[warn]   def fromYaml(yamlString: String): Either[Error, RankingConfig] = {
+[warn]                                     ^
+[warn] /Users/basila/Documents/Develop/ranking-engine/ranking-config/src/main/scala/com/example/ranking/config/RankingConfig.scala:19:43: class RankingConfig in package config is deprecated (since 0.2.0): Use RankingConfigSchema instead
+[warn]     parser.parse(yamlString).flatMap(_.as[RankingConfig])
+[warn]                                           ^
+[warn] /Users/basila/Documents/Develop/ranking-engine/ranking-config/src/main/scala/com/example/ranking/config/RankingConfig.scala:22:35: class RankingConfig in package config is deprecated (since 0.2.0): Use RankingConfigSchema instead
+[warn]   def fromYamlFile(path: String): Either[Throwable, RankingConfig] = {
+[warn]                                   ^
+[warn] /Users/basila/Documents/Develop/ranking-engine/ranking-config/src/main/scala/com/example/ranking/config/RankingConfig.scala:28:16: class RankingConfig in package config is deprecated (since 0.2.0): Use RankingConfigSchema instead
+[warn]           case Right(config) => config
+[warn]                ^
+[warn] /Users/basila/Documents/Develop/ranking-engine/ranking-config/src/main/scala/com/example/ranking/config/RankingConfig.scala:29:16: class RankingConfig in package config is deprecated (since 0.2.0): Use RankingConfigSchema instead
+[warn]           case Left(error) => throw new RuntimeException(s"Failed to parse YAML: $error")
+[warn]                ^
+[warn] 14 warnings found

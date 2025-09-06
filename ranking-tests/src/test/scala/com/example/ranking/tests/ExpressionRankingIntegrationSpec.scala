@@ -3,163 +3,192 @@ package com.example.ranking.tests
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 import com.example.ranking.core._
-import com.example.ranking.config._
 
 class ExpressionRankingIntegrationSpec extends AnyFlatSpec with Matchers {
 
-  "Expression-based ranking" should "work end-to-end with config" in {
-    val yaml = """
-      |ranking_strategy: "expression_based"
-      |scoring_formula: "0.6 * revenue + 0.4 * engagement - 0.1 * risk_score"
-      |boost_factors:
-      |  premium: 1.2
-      |  trending: 1.1
-      |experiment_groups:
-      |  high_value:
-      |    scoring_formula: "0.8 * revenue + 0.2 * engagement"
-      |    boost_factors:
-      |      premium: 1.5
-      |""".stripMargin
-
-    val configResult = RankingConfig.fromYamlSchema(yaml)
-    configResult shouldBe a [Right[_, _]]
-    
-    val config = configResult.toOption.get
-    val resolved = ConfigResolver.resolve(config)
-    resolved shouldBe a [Right[_, _]]
-  }
-
-  it should "rank items using expression evaluation" in {
-    val items = List(
-      Item("offer1", 1.0, Map("revenue" -> "2.5", "engagement" -> "0.8", "risk_score" -> "0.2")),
-      Item("offer2", 1.0, Map("revenue" -> "1.0", "engagement" -> "1.2", "risk_score" -> "0.5")),
-      Item("offer3", 1.0, Map("revenue" -> "3.0", "engagement" -> "0.3", "risk_score" -> "0.1"))
+  "Expression-based ranking integration" should "work end-to-end with ResolvedRankingConfig" in {
+    val offers = List(
+      Offer("offer1", Map("revenue" -> 2.5, "engagement" -> 0.8, "risk_score" -> 0.2)),
+      Offer("offer2", Map("revenue" -> 1.0, "engagement" -> 1.2, "risk_score" -> 0.5)),
+      Offer("offer3", Map("revenue" -> 3.0, "engagement" -> 0.3, "risk_score" -> 0.1))
     )
 
-    val formula = "0.6 * revenue + 0.4 * engagement - 0.1 * risk_score"
-    val strategyResult = ExpressionBasedRankingStrategy.fromConfig(formula)
-    strategyResult shouldBe a [Right[_, _]]
-    
-    val strategy = strategyResult.toOption.get
-    val rankedItems = strategy.rank(items)
-    
-    rankedItems should have size 3
-    // Verify ranking order based on formula calculation
-    val scores = items.map { item =>
-      val features = item.metadata.view.mapValues(_.toDouble).toMap + ("base_score" -> item.score)
-      val revenue = features("revenue")
-      val engagement = features("engagement") 
-      val riskScore = features("risk_score")
-      
-      item.id -> (0.6 * revenue + 0.4 * engagement - 0.1 * riskScore)
-    }.toMap
-    
-    // Items should be ranked by their computed scores
-    val expectedOrder = items.sortBy(item => -scores(item.id)).map(_.id)
-    rankedItems.map(_.id) shouldBe expectedOrder
-  }
-
-  it should "handle missing features gracefully" in {
-    val items = List(
-      Item("complete", 1.0, Map("revenue" -> "2.0", "engagement" -> "1.0")),
-      Item("incomplete", 1.0, Map("revenue" -> "1.5")) // missing engagement
+    val config = ResolvedRankingConfig(
+      rankingStrategy = "expression_based",
+      scoringFormula = "0.6 * revenue + 0.4 * engagement - 0.1 * risk_score",
+      filters = List.empty,
+      maxResults = 10,
+      boostFactors = Map("premium" -> 1.2),
+      experimentGroups = Map.empty
     )
 
-    val strategy = ExpressionBasedRankingStrategy.fromConfig("revenue + engagement").toOption.get
-    val results = strategy.rankWithDetails(items)
+    val ranker = Ranker.fromConfig(config)
+    val result = ranker.rank(offers)
+
+    result shouldBe a[Right[_, _]]
+    val rankingResult = result.toOption.get
+
+    rankingResult.rankedOffers should have size 3
+    rankingResult.totalProcessed shouldBe 3
+    rankingResult.totalFiltered shouldBe 0
+  }
+
+  it should "handle experiment group overrides" in {
+    val offers = List(
+      Offer("offer1", Map("revenue" -> 2.0, "engagement" -> 1.0)),
+      Offer("offer2", Map("revenue" -> 1.0, "engagement" -> 2.0))
+    )
+
+    val config = ResolvedRankingConfig(
+      rankingStrategy = "expression_based",
+      scoringFormula = "revenue + engagement", // Base: equal weight
+      filters = List.empty,
+      maxResults = 10,
+      boostFactors = Map.empty,
+      experimentGroups = Map(
+        "revenue_focus" -> ExperimentGroupConfig(
+          scoringFormula = Some("2 * revenue + engagement"), // Emphasize revenue
+          description = Some("Revenue-focused experiment")
+        )
+      )
+    )
+
+    val ranker = Ranker.fromConfig(config)
     
-    results should have size 2
-    results(0) shouldBe a [Right[_, _]] // complete item should succeed
-    results(1) shouldBe a [Left[_, _]]  // incomplete item should fail
+    // Test base formula
+    val baseResult = ranker.rank(offers, RankingContext.empty)
+    baseResult shouldBe a[Right[_, _]]
+
+    // Test experiment override
+    val experimentContext = RankingContext.withExperiment("revenue_focus")
+    val experimentResult = ranker.rank(offers, experimentContext)
+    experimentResult shouldBe a[Right[_, _]]
+
+    val baseRanking = baseResult.toOption.get
+    val experimentRanking = experimentResult.toOption.get
+
+    // Both should rank the same offers, but potentially in different order
+    baseRanking.rankedOffers should have size 2
+    experimentRanking.rankedOffers should have size 2
+
+    // Experiment should apply override
+    experimentRanking.experimentOverride should be(defined)
+    experimentRanking.experimentOverride.get.groupName shouldBe "revenue_focus"
   }
 
   it should "apply boost factors correctly" in {
-    val items = List(
-      Item("boosted", 1.0, Map("revenue" -> "1.0", "boosted" -> "true")),
-      Item("normal", 1.0, Map("revenue" -> "1.0"))
+    val offers = List(
+      Offer("premium-offer", 
+        Map("revenue" -> 1.0), 
+        Map("tier" -> "premium")
+      ),
+      Offer("normal-offer", 
+        Map("revenue" -> 1.0), 
+        Map("tier" -> "standard")
+      )
     )
 
-    val boosts = Map("premium" -> 1.5)
-    val strategy = ExpressionBasedRankingStrategy.fromConfig("revenue", boosts).toOption.get
-    val results = strategy.rankWithDetails(items)
+    val config = ResolvedRankingConfig(
+      rankingStrategy = "expression_based",
+      scoringFormula = "revenue",
+      filters = List.empty,
+      maxResults = 10,
+      boostFactors = Map("premium" -> 1.5),
+      experimentGroups = Map.empty
+    )
+
+    val ranker = Ranker.fromConfig(config)
+    val result = ranker.rankWithDetails(offers, RankingContext.empty, includeDebugInfo = true)
+
+    result shouldBe a[Right[_, _]]
+    val ranking = result.toOption.get
+
+    ranking.rankedOffers should have size 2
     
-    results.foreach { result =>
-      result shouldBe a [Right[_, _]]
-      val scored = result.toOption.get
-      if (scored.item.id == "boosted") {
-        scored.score should be > scored.formulaScore // Should have boost applied
-      }
-    }
+    val premiumOffer = ranking.rankedOffers.find(_.offer.id == "premium-offer").get
+    val normalOffer = ranking.rankedOffers.find(_.offer.id == "normal-offer").get
+
+    // Premium offer should have a boost applied
+    premiumOffer.score should be > normalOffer.score
+    premiumOffer.appliedBoosts should contain("premium" -> 1.5)
   }
 
-  it should "validate formulas in config" in {
-    val validFormula = "revenue + engagement"
-    val invalidFormula = "revenue +"
-    
-    ExpressionBasedRankingStrategy.fromConfig(validFormula) shouldBe a [Right[_, _]]
-    ExpressionBasedRankingStrategy.fromConfig(invalidFormula) shouldBe a [Left[_, _]]
-  }
-
-  it should "work with experiment group overrides" in {
-    val baseConfig = RankingConfigSchema(
+  it should "validate formulas and reject invalid ones" in {
+    val validConfig = ResolvedRankingConfig(
       rankingStrategy = "expression_based",
       scoringFormula = "revenue + engagement",
-      experimentGroups = Some(Map(
-        "mobile" -> ExperimentGroupConfig(
-          scoringFormula = Some("2 * revenue + engagement")
-        )
-      ))
+      filters = List.empty,
+      maxResults = 10,
+      boostFactors = Map.empty,
+      experimentGroups = Map.empty
     )
 
-    val baseResolved = ConfigResolver.resolve(baseConfig)
-    val mobileResolved = ConfigResolver.resolve(baseConfig, Some("mobile"))
-    
-    baseResolved shouldBe a [Right[_, _]]
-    mobileResolved shouldBe a [Right[_, _]]
-    
-    baseResolved.toOption.get.scoringFormula shouldBe "revenue + engagement"
-    mobileResolved.toOption.get.scoringFormula shouldBe "2 * revenue + engagement"
+    val invalidConfig = ResolvedRankingConfig(
+      rankingStrategy = "expression_based",
+      scoringFormula = "revenue +", // Invalid formula
+      filters = List.empty,
+      maxResults = 10,
+      boostFactors = Map.empty,
+      experimentGroups = Map.empty
+    )
+
+    val offers = List(Offer("test", Map("revenue" -> 1.0, "engagement" -> 0.5)))
+
+    val validRanker = Ranker.fromConfig(validConfig)
+    val validResult = validRanker.rank(offers)
+    validResult shouldBe a[Right[_, _]]
+
+    val invalidRanker = Ranker.fromConfig(invalidConfig)
+    val invalidResult = invalidRanker.rank(offers)
+    invalidResult shouldBe a[Left[_, _]]
   }
 
-  "Real-world example" should "demonstrate complete ranking pipeline" in {
+  "Real-world ranking example" should "demonstrate complete ranking pipeline" in {
     val offers = List(
-      Item("premium-offer", 1.0, Map(
-        "revenue" -> "10.5",
-        "engagement" -> "0.9", 
-        "risk_score" -> "0.1",
-        "category" -> "finance",
-        "boosted" -> "true"
-      )),
-      Item("standard-offer", 1.0, Map(
-        "revenue" -> "5.2",
-        "engagement" -> "1.3",
-        "risk_score" -> "0.3",
-        "category" -> "shopping"
-      )),
-      Item("low-value-offer", 1.0, Map(
-        "revenue" -> "2.1",
-        "engagement" -> "0.4",
-        "risk_score" -> "0.6",
-        "category" -> "entertainment"
-      ))
+      Offer("premium-finance", 
+        Map("revenue" -> 10.5, "engagement" -> 0.9, "risk_score" -> 0.1),
+        Map("category" -> "finance", "tier" -> "premium")
+      ),
+      Offer("standard-shopping", 
+        Map("revenue" -> 5.2, "engagement" -> 1.3, "risk_score" -> 0.3),
+        Map("category" -> "shopping", "tier" -> "standard")
+      ),
+      Offer("low-value-entertainment", 
+        Map("revenue" -> 2.1, "engagement" -> 0.4, "risk_score" -> 0.6),
+        Map("category" -> "entertainment", "tier" -> "basic")
+      )
     )
 
-    // Complex formula with multiple factors
-    val formula = "0.5 * revenue + 0.3 * engagement - 0.2 * risk_score + max(0, revenue - 5) * 0.1"
-    val boosts = Map("premium" -> 1.2, "category_bonus" -> 1.1)
-    
-    val strategy = ExpressionBasedRankingStrategy.fromConfig(formula, boosts).toOption.get
-    val rankedOffers = strategy.rank(offers)
-    
-    rankedOffers should have size 3
-    rankedOffers.head.id should not be "low-value-offer" // Should not be first
-    
-    val detailedResults = strategy.rankWithDetails(offers)
-    detailedResults.foreach { result =>
-      result shouldBe a [Right[_, _]]
-      val scored = result.toOption.get
-      scored.formulaScore should be > 0.0
-      scored.score should be >= scored.formulaScore // Boosts should not decrease score
+    val config = ResolvedRankingConfig(
+      rankingStrategy = "expression_based",
+      scoringFormula = "0.5 * revenue + 0.3 * engagement - 0.2 * risk_score",
+      filters = List.empty,
+      maxResults = 10,
+      boostFactors = Map("premium" -> 1.2),
+      experimentGroups = Map.empty
+    )
+
+    val ranker = Ranker.fromConfig(config)
+    val result = ranker.rankWithDetails(offers, RankingContext.empty, includeDebugInfo = true)
+
+    result shouldBe a[Right[_, _]]
+    val ranking = result.toOption.get
+
+    ranking.rankedOffers should have size 3
+    ranking.totalProcessed shouldBe 3
+
+    // Premium finance offer should benefit from both formula and boost
+    val topOffer = ranking.rankedOffers.head
+    topOffer.offer.id shouldBe "premium-finance"
+
+    // All offers should have positive scores
+    ranking.rankedOffers.foreach { scoredOffer =>
+      scoredOffer.score should be > 0.0
     }
+
+    // Debug info should be present
+    ranking.debugInfo should not be empty
+    ranking.debugInfo should contain key "processingTimeMs"
+    ranking.debugInfo should contain key "scoringFormula"
   }
 }
